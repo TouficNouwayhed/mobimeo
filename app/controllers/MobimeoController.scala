@@ -144,7 +144,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
     var linesMap: Map[Int, String] = Map[Int, String]()
     var delaysMap: Map[String, Int] = Map[String, Int]()
 
-    var src = Source.fromFile("C:\\Users\\toufi\\Downloads\\Scala_MobimeoBackendChallenge\\data\\stops.csv")
+    var src = Source.fromFile("data\\stops.csv")
     for (line <- src.getLines().drop(1)) {
       val cols = line.split(",").map(_.trim)
 
@@ -153,7 +153,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
 
     src.close
 
-    src = Source.fromFile("C:\\Users\\toufi\\Downloads\\Scala_MobimeoBackendChallenge\\data\\times.csv")
+    src = Source.fromFile("data\\times.csv")
     for (line <- src.getLines().drop(1)) {
       val cols = line.split(",").map(_.trim)
       val currentStopMap: Option[Map[String, List[Int]]] = timesMap.get(cols(1).toInt)
@@ -175,7 +175,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
 
     src.close
 
-    src = Source.fromFile("C:\\Users\\toufi\\Downloads\\Scala_MobimeoBackendChallenge\\data\\lines.csv")
+    src = Source.fromFile("data\\lines.csv")
     for (line <- src.getLines().drop(1)) {
       val cols = line.split(",").map(_.trim)
 
@@ -184,7 +184,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
 
     src.close
 
-    src = Source.fromFile("C:\\Users\\toufi\\Downloads\\Scala_MobimeoBackendChallenge\\data\\delays.csv")
+    src = Source.fromFile("data\\delays.csv")
     for (line <- src.getLines().drop(1)) {
       val cols = line.split(",").map(_.trim)
 
