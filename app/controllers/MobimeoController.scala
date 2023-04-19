@@ -15,13 +15,8 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
       stopsMap: Map[(Int, Int), Int],
       timesMap: Map[Int, Map[String, List[Int]]],
       linesMap: Map[Int, String],
-      delaysMap: Map[String, Int]
+      _: Map[String, Int]
     ) = readFiles
-
-    println(stopsMap)
-    println(timesMap)
-    println(linesMap)
-    println(delaysMap)
 
     val stopId = stopsMap.get((xCoordinate, yCoordinate))
 
@@ -50,17 +45,11 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
 
   def getVehicleByStopId(stopId: Int): Action[AnyContent] = Action {
     val (
-      stopsMap: Map[(Int, Int), Int],
+      _: Map[(Int, Int), Int],
       timesMap: Map[Int, Map[String, List[Int]]],
       linesMap: Map[Int, String],
-      delaysMap: Map[String, Int]
+      _: Map[String, Int]
     ) = readFiles
-
-    println(stopsMap)
-    println(timesMap)
-    println(linesMap)
-    println(delaysMap)
-
 
     val now = Calendar.getInstance().getTime
     val minuteFormat = new SimpleDateFormat("HH:mm:ss")
@@ -71,6 +60,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
     timeLinesMap match {
       case Some(timeLines) =>
         var result: JsArray = JsArray()
+        // If the current time is currently in the times, just return the list of vehicles
         if(timeLines.contains(currentMinuteAsString)) {
           for (lineId <- timeLines(currentMinuteAsString)) {
             val vehicle = linesMap(lineId)
@@ -79,9 +69,11 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
           }
           Ok(result).as("application/json")
         } else {
+          // add the current time to the map
           val timeLinesWithCurrentTime: Map[String, List[Int]] = timeLines + (currentMinuteAsString -> List(-1))
           val timeLinesWithCurrentTimeSortedList = timeLinesWithCurrentTime.toSeq.sortWith(sortByTime)
           val timeLinesWithCurrentTimeSortedMap = ListMap(timeLinesWithCurrentTimeSortedList.zipWithIndex: _*)
+          // Get the index of the first timestamp after the current one
           val indexOfPickedLine = (timeLinesWithCurrentTimeSortedMap(currentMinuteAsString -> List(-1)) + 1) % timeLinesWithCurrentTimeSortedList.size
 
           for (lineId <- timeLinesWithCurrentTimeSortedList(indexOfPickedLine)._2) {
@@ -138,6 +130,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
     false
   }
 
+  // Ideally with time this file reading would move to the application startup
   private def readFiles = {
     var stopsMap: Map[(Int, Int), Int] = Map[(Int, Int), Int]()
     var timesMap: Map[Int, Map[String, List[Int]]] = Map[Int, Map[String, List[Int]]]()
