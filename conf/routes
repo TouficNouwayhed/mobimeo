@@ -1,12 +1,4 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
-# https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
-
-# An example controller showing a sample home page
 GET     /mobimeo/vehicle/:xCoordinate/:yCoordinate/:time      controllers.MobimeoController.getVehicleByCoordinatesAndTime(xCoordinate: Int, yCoordinate: Int, time: String)
 GET     /mobimeo/vehicle/:stopId                              controllers.MobimeoController.getVehicleByStopId(stopId: Int)
 GET     /mobimeo/delay/:lineId                                controllers.MobimeoController.getDelayForLineId(lineId: Int)
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

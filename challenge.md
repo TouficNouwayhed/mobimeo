@@ -25,7 +25,7 @@ Build a web API which provides the following features:
 - Return the vehicle arriving next at a given stop
 - Indicate if a given line is currently delayed
 
-Endpoints should be available via port `8081`
+Endpoints should be available via port `8081` with run 8081
 
 ## Implementation
 

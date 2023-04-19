@@ -131,6 +131,7 @@ class MobimeoController @Inject()(val controllerComponents: ControllerComponents
   }
 
   // Ideally with time this file reading would move to the application startup
+  // Also there would be a model instead of the maps and list
   private def readFiles = {
     var stopsMap: Map[(Int, Int), Int] = Map[(Int, Int), Int]()
     var timesMap: Map[Int, Map[String, List[Int]]] = Map[Int, Map[String, List[Int]]]()
